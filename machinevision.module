@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for MachineVision module.
+ */
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Custom overrides of admin theme node forms.
+ *
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form_id
+ */
+function machinevision_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['#attached']['library'][] = 'machinevision/forms';
+}
