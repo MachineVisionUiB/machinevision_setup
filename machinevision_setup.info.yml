@@ -1,0 +1,6 @@
+name: 'Machine vision setup'
+type: module
+description: 'Setup, overrides and update tasks'
+package: Custom
+core: 8.x
+core_version_requirement: ^8 || ^9

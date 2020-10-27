@@ -14,6 +14,6 @@
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  * @param $form_id
  */
-function machinevision_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  $form['#attached']['library'][] = 'machinevision/forms';
+function machinevision_setup_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  $form['#attached']['library'][] = 'machinevision_setup/forms';
 }
