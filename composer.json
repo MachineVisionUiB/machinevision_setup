@@ -1,6 +1,6 @@
 {
   "name": "drupal/machinevision_setup",
-  "type": "drupal-module",
-  "description": "",
+    "type": "drupal-custom-module",
+    "description": "",
   "keywords": ["Drupal"]
 }
