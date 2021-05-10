@@ -5,15 +5,48 @@
  * Primary module hooks for MachineVision module.
  */
 
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\NodeForm;
+
 /**
  * Implements hook_form_alter().
  *
  * Custom overrides of admin theme node forms.
  *
  * @param $form
- * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param FormStateInterface $form_state
  * @param $form_id
  */
-function machinevision_setup_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
-  $form['#attached']['library'][] = 'machinevision_setup/forms';
+function machinevision_setup_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_state->getFormObject() instanceof NodeForm) {
+    $form['#attached']['library'][] = 'machinevision_setup/forms';
+
+    foreach ($form as $name => $FormElement) {
+      if (!is_array($FormElement)) {
+        continue;
+      }
+
+      if (isFormElementLarge($FormElement)) {
+        addMultiColumnToForm($form, $name);
+      }
+
+    }
+  }
+}
+
+function addMultiColumnToForm(&$form, $name) {
+  $form[$name]['#attributes']['class'][] = 'form-multi-column';
+}
+
+function isFormElementLarge(array $formElement): bool
+{
+  if (!isset($formElement['widget'])) {
+    return false;
+  }
+
+  if (!isset($formElement['widget']['#options'])) {
+    return false;
+  }
+
+  return !(strripos($formElement['widget']['#field_name'], 'field_') === false) && (count($formElement['widget']['#options']) >= 15);
 }

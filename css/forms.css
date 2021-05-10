@@ -1,9 +1,11 @@
 @media (min-width: 700px) {
-  .field--name-field-sentiment .form-checkboxes,
-  .field--name-field-technologies-referenced .form-checkboxes,
-  .field--name-field-technologies-used .form-checkboxes,
-  .field--name-field-themes .form-checkboxes,
-  .field--name-field-publication-type .form-checkboxes {
-    columns: 2;
+  .form-multi-column .form-checkboxes {
+    column-count: 2;
+    column-gap: 1em;
+  }
+
+  .form-multi-column .form-type--boolean .form-boolean {
+    float: none;
+    margin-right: 0.5em;
   }
 }
