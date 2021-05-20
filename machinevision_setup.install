@@ -1,0 +1,26 @@
+<?php
+
+use Drupal\Core\Utility\UpdateException;
+use Drupal\node\Entity\Node;
+
+/**
+ * Update all person nodes.
+ */
+function machinevision_setup_update_9001()
+{
+  $person_nids = Drupal::entityQuery('node')
+    ->condition('type', 'person')
+    ->execute();
+
+  $persons = Node::loadMultiple($person_nids);
+  $error = '';
+  foreach ($persons as $person) {
+    if ($person->field_last_name->count() === 1) {
+      $person->save();
+      continue;
+    }
+
+    $error = 'Last name missing. Failed updating node ' . $person->id();
+    throw new UpdateException($error);
+  }
+}
