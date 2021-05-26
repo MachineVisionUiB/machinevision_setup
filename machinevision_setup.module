@@ -7,6 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeForm;
+use Drupal\views\ViewExecutable;
 
 /**
  * Implements hook_form_alter().
@@ -49,4 +50,32 @@ function isFormElementLarge(array $formElement): bool
   }
 
   return !(strripos($formElement['widget']['#field_name'], 'field_') === false) && (count($formElement['widget']['#options']) >= 15);
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function machinevision_setup_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+
+  if ($view->id() !== 'taxonomy_term') {
+    return;
+  }
+
+  $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($args[0]);
+
+  if (!isset($term)) {
+    return;
+  }
+
+  $vocabulariesUsedByCharacters = [
+    'age',
+    'gender',
+    'race',
+    'sexuality',
+    'species',
+  ];
+  $bundle = $term->bundle();
+  if (in_array($term->bundle(), $vocabulariesUsedByCharacters, true)) {
+    $view->setDisplay('page_2');
+  }
 }
